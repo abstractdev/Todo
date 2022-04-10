@@ -227,6 +227,13 @@ function Display() {
       this.projectModalContainer.classList.add("show");
     });
   }
+  function renderNewTaskModal() {
+    this.newTask.addEventListener("click", () => {
+      this.taskModalContainer.classList.add("show");
+      this.taskTitle.focus();
+      this.taskDueDate.valueAsDate = new Date();
+    });
+  }
 }
 
 export default Display;
