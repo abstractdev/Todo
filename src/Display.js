@@ -222,6 +222,11 @@ function Display() {
       })();
     });
   }
+  function renderNewProjectModal() {
+    this.openProject.addEventListener("click", () => {
+      this.projectModalContainer.classList.add("show");
+    });
+  }
 }
 
 export default Display;
