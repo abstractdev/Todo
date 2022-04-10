@@ -234,6 +234,22 @@ function Display() {
       this.taskDueDate.valueAsDate = new Date();
     });
   }
+  function clickOutsideCloseModal() {
+    window.onclick = function(event) {
+      if(event.target === document.querySelector("#task-modal-container")) {
+        document.querySelector("#task-modal-container").classList.remove("show")
+      }
+      if(event.target === document.querySelector("#edit-task-modal-container")) {
+        document.querySelector("#edit-task-modal-container").classList.remove("show");
+      }
+      if(event.target === document.querySelector(".project-modal-container")) {
+        document.querySelector(".project-modal-container").classList.remove("show");
+      }
+      if(event.target === document.querySelector(".edit-project-modal-container")) {
+        document.querySelector(".edit-project-modal-container").classList.remove("show");
+      }
+    }
+  }
 }
 
 export default Display;
