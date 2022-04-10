@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Josefin+Sans&display=swap");
+$dark: #180830;
+$purple: #6f42c1;
+$cyan: #32fbe2;
+$teal: #3f81a2;
+$green: #3cf281;
+$yellow: #ffc107;
+$red: #e44c55;
+$gray: seashell;
+:root {
+  font-family: "Josefin Sans", sans-serif;
+}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.task-modal {
+  display: none;
+}
+
+.project-modal {
+  display: none;
+}
+
+
+body {
+  display: grid;
+  grid-template-rows: 1fr 1fr 5fr;
+  width: 100vw;
+  height: 100vh;
+}
+
+.top-nav {
+  grid-row: 1/2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.second-row-container {
+  grid-row: 2/3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.new-project-button {
+  grid-column: 1/2;
+}
+
+.top-text {
+  grid-column: 2/4;
+}
+
+.new-task-button {
+  grid-column: 4/5;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.sidebar-container {
+  grid-column: 1/2;
+}
+
+.main-content {
+  grid-column: 3/5;
+}
