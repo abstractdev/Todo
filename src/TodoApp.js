@@ -3,7 +3,7 @@ import {Project} from "./Project.js"
 import {Task} from "./Task.js"
 import { createIdForArrayElements } from "./IdFunctions.js";
 import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener } from "./EventHandlers.js";
-import {setProjects, deleteProject, editProject, getSidebarProjects, getAllProjects, setTasks, deleteTasks, getTasks } from "./FirebaseFunctions.js";
+import {setProjects, deleteProject, editProject, getSidebarProjects, getAllProjects, setTasks, deleteTask, getTasks } from "./FirebaseFunctions.js";
 
 export const TodoApp = () => {
   let projectsArray = [];
@@ -88,9 +88,9 @@ export const TodoApp = () => {
     // todasyTaskArray = todasyTaskArray.filter(function (e) {
     //   return e.id !== parseInt(id);
     // });
-    deleteTasks(id)
+    deleteTask(id)
     createIdForArrayElements(tasksArray);
-    renderApp();
+    getTasks();
   }
   
   handleNewProjectEventListener(storeProjectInArray);
@@ -98,5 +98,5 @@ export const TodoApp = () => {
   handleEditProjectEventListener(editProjectInArray);
   handleAllProjectsEventListener(showAllProjects);
   handleNewTaskEventListener(storeTaskInArray);
-  // handleDeleteTaskEventListener(deleteTaskFromArray);
+  handleDeleteTaskEventListener(deleteTaskFromArray);
 }

@@ -91,14 +91,11 @@ export function setTasks(taskArray) {
     setTask(element.title, element.id, element.projectId, element.description, element.priority, element.dueDate, element.notes, element.complete)
   });
 }
-// async function deleteTask(id) {
-//   await deleteDoc(doc(db, "tasks", `${id}`), {
-//     id
-//   });
-// }
-// export function deleteTasks(id) {
-//       deleteTask(id)
-// }
+export async function deleteTask(id) {
+  await deleteDoc(doc(db, "tasks", `${id}`), {
+    id
+  });
+}
 
 // export async function getTasks() {
 //   const querySnapshot = await getDocs(collection(db, "tasks"));
