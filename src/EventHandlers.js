@@ -1,3 +1,6 @@
+import { Display } from "./Display";
+import { setProject, getProjects, setProjects, getAllProjects } from "./FirebaseFunctions";
+
 const submitProject = document.querySelector("#submit-project");
 const editSubmitProject = document.querySelector("#edit-submit-project");
 const projectForm = document.querySelector("#project-form");
@@ -25,41 +28,39 @@ const taskForm = document.querySelector("#task-form");
 const taskModalContainer = document.querySelector("#task-modal-container");
 const mainContentContainer = document.querySelector(".main-content-container")
 
-export function handleNewProjectEventListener (storeProjectDataInArray, renderApp) {
+export function handleNewProjectEventListener (storeProjectInArray) {
   submitProject.addEventListener("click", (e) => {
     e.preventDefault();
-    storeProjectDataInArray(projectTitle.value);
+    storeProjectInArray(projectTitle.value);
     projectForm.reset();
     projectModalContainer.classList.remove("show");
     newTaskButton.classList.remove("hide");
   })
 }
 
-// export function handleDeleteProjectEventListener(deleteProjectFromArray) {
-//   this.mainContainer.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     if (e.target.className === "projectsDeleteButton") {
-//       deleteProjectFromArray(parseInt(e.target.closest(".projectsDisplay").dataset.id));
-//       e.target.closest(".projectsDisplay").remove();
-//     }
-//   });
-// }
+export function handleDeleteProjectEventListener(deleteProjectFromArray) {
+  mainContentContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.className === "projectsDeleteButton") {
+      deleteProjectFromArray(parseInt(e.target.closest(".projectsDisplay").dataset.id));
+      e.target.closest(".projectsDisplay").remove();
+    }
+  });
+}
 
-export function handleEditProjectEventListener(editProject, renderApp) {
+export function handleEditProjectEventListener(editProject) {
   editSubmitProject.addEventListener("click", (e) => {
     e.preventDefault();
     editProject(e.target.dataset.id, editProjectTitle.value);
     editProjectModalContainer.classList.remove("show");
-    renderApp();
   });
 }
 
-export function handleAllProjectsEventListener(renderAllProjects, projectsArray, renderApp) {
+export function handleAllProjectsEventListener(showAllProjects) {
   allProjects.addEventListener("click", (e) => {
     topText.textContent = "All Projects";
     newTaskButton.classList.add("hide");
-    renderAllProjects(projectsArray);
-    renderApp();
+    showAllProjects();
   });
 }
 
