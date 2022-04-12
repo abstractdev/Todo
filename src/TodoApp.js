@@ -2,93 +2,101 @@ import {Display} from "./Display.js";
 import {Project} from "./Project.js"
 import {Task} from "./Task.js"
 import { createIdForArrayElements } from "./IdFunctions.js";
+import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener } from "./EventHandlers.js";
+import {setProjects, deleteProject, editProject, getSidebarProjects, getAllProjects, setTasks, deleteTasks, getTasks } from "./FirebaseFunctions.js";
 
 export const TodoApp = () => {
-  const projectsArray = [];
-  const tasksArray= [];
-  const submitProject = document.querySelector("#submit-project");
-  const projectForm = document.querySelector("#project-form");
-  const projectTitle = document.querySelector("#project-title");
-  const projectModalContainer = document.querySelector(
-    ".project-modal-container"
-  );
-  const newTaskButton = document.querySelector(".new-task-button");
-  const submitTask = document.querySelector("#submit-task");
-  const taskTitle = document.querySelector("#title");
-  const editTaskTitle = document.querySelector("#edit-title");
-  const taskDescription = document.querySelector("#description");
-  const editTaskDescription = document.querySelector("#edit-description");
-  const taskDueDate = document.querySelector("#dueDate");
-  const editTaskDueDate = document.querySelector("#edit-dueDate");
-  const taskNotes = document.querySelector("#notes");
-  const editTaskNotes = document.querySelector("#edit-notes");
-  const taskForm = document.querySelector("#task-form");
-  const taskModalContainer = document.querySelector("#task-modal-container");
-
-  const renderApp = () => {
-    Display.renderTasks(tasksArray);
-    Display.renderProjectsSidebar(projectsArray);
-  }
+  let projectsArray = [];
+  let tasksArray = [];
+  
   const initModals = () => {
     Display.renderNewProjectModal();
     Display.renderNewTaskModal();
     Display.clickOutsideCloseModal();
   }
+
   const initDisplay = (() => {
     initModals()
-    renderApp()
+    getSidebarProjects()
+    getTasks()
     })()
 
-
-    function storeProjectDataInArray (title){
-      const newProject = Project();
-      projectsArray.push(newProject);
-      createIdForArrayElements(projectsArray);
-      newProject.title = title;
-      renderApp();
-    }
-  const handleNewProjectEventListener = (() => {
-    submitProject.addEventListener("click", (e) => {
-      e.preventDefault();
-      storeProjectDataInArray(projectTitle.value);
-      projectForm.reset();
-      projectModalContainer.classList.remove("show");
-      newTaskButton.classList.remove("hide");
-      renderApp();
-    })
-  })()
-
-  function storeTaskDataInArray(title, description, dueDate, notes) {
-      let newTask = Task();
-      newTask.title = title;
-      // newTask.projectId = this.model.currentProject.id;
-      newTask.description = description;
-      newTask.dueDate = dueDate;
-      newTask.notes = notes;
-      // model.currentProject.array.push(newTask);
-      tasksArray.push(newTask);
-      createIdForArrayElements(tasksArray);
-      renderApp();
-      // if (view.mainContainerTopText.textContent === "All Tasks") {
-      //   view.renderTasks(taskArray);
-      // } else if (view.mainContainerTopText.textContent === "Today") {
-      //   view.renderTasks(todayTaskArray);
-      // } else {
-      //   view.renderTasks(currentProject.array);
-      // }
+  const showAllProjects = () => {
+    getAllProjects()
   }
 
-  const handleTaskEventListener = (() => {
-    submitTask.addEventListener("click", (e) => {
-      e.preventDefault();
-      storeTaskDataInArray(
-        taskTitle.value,
-        taskDescription.value,
-        taskDueDate.value,
-        taskNotes.value
-      );
-      taskForm.reset();
-      taskModalContainer.classList.remove("show");
+  const storeProjectInArray  = (title) =>{
+    const newProject = Project();
+    projectsArray.push(newProject);
+    createIdForArrayElements(projectsArray);
+    newProject.title = title;
+    setProjects(projectsArray);
+    getSidebarProjects()
+  }
+  const editProjectInArray = (id, title) =>{
+    projectsArray.forEach((e) => {
+      if (parseInt(id) === e.id) {
+        e.title = title;
+        editProject(id, title)
+      }
     });
-  })()
+    createIdForArrayElements(projectsArray);
+    getAllProjects();
+    getSidebarProjects();
+  }
+  
+
+  const deleteProjectFromArray = (id) => {
+    /////////deletes tasks associated with project /////////////
+    let temp = [];
+    let deletedProject = {};
+    temp = projectsArray.filter((e) => e.id === parseInt(id));
+    deletedProject = temp[0];
+    tasksArray = tasksArray.filter(
+      (e) => e.projectId !== deletedProject.id
+    );
+    //////deletes project/////////
+    projectsArray = projectsArray.filter((e) => e.id !== parseInt(id));
+    console.log(projectsArray);
+    createIdForArrayElements(projectsArray);
+    deleteProject(id);
+    getAllProjects();
+    getSidebarProjects();
+  };
+
+  const storeTaskInArray = (title, description, dueDate, notes) => {
+    let newTask = Task();
+    newTask.title = title;
+    newTask.description = description;
+    newTask.dueDate = dueDate;
+    newTask.notes = notes;
+    tasksArray.push(newTask);
+    createIdForArrayElements(tasksArray);
+    setTasks(tasksArray)
+    renderApp();
+  }
+
+  const deleteTaskFromArray = (id) => {
+    tasksArray = tasksArray.filter(function (e) {
+      return e.id !== parseInt(id);
+    });
+    // currentProject.array = currentProject.array.filter(
+    //   function (e) {
+    //     return e.id !== parseInt(id);
+    //   }
+    // );
+    // todasyTaskArray = todasyTaskArray.filter(function (e) {
+    //   return e.id !== parseInt(id);
+    // });
+    deleteTasks(id)
+    createIdForArrayElements(tasksArray);
+    renderApp();
+  }
+  
+  handleNewProjectEventListener(storeProjectInArray);
+  handleDeleteProjectEventListener(deleteProjectFromArray);
+  handleEditProjectEventListener(editProjectInArray);
+  handleAllProjectsEventListener(showAllProjects);
+  // handleNewTaskEventListener(storeTaskInArray, renderApp);
+  // handleDeleteTaskEventListener(deleteTaskFromArray);
 }
