@@ -72,8 +72,8 @@ export const TodoApp = () => {
     newTask.notes = notes;
     tasksArray.push(newTask);
     createIdForArrayElements(tasksArray);
-    setTasks(tasksArray)
-    renderApp();
+    setTasks(tasksArray);
+    getTasks();
   }
 
   const deleteTaskFromArray = (id) => {
@@ -97,6 +97,6 @@ export const TodoApp = () => {
   handleDeleteProjectEventListener(deleteProjectFromArray);
   handleEditProjectEventListener(editProjectInArray);
   handleAllProjectsEventListener(showAllProjects);
-  // handleNewTaskEventListener(storeTaskInArray, renderApp);
+  handleNewTaskEventListener(storeTaskInArray);
   // handleDeleteTaskEventListener(deleteTaskFromArray);
 }
