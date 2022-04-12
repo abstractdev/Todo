@@ -43,17 +43,6 @@ export async function getAllProjects() {
     createIdForArrayElements(temp);
     Display.renderAllProjects(temp);
 }
-
-// export async function getTasks(renderTasks) {
-//   const temp = []
-//   const querySnapshot = await getDocs(collection(db, "tasks"));
-//   querySnapshot.forEach((doc) => {
-//     temp.push(doc.data());
-//   });
-//   const renderDbTasks = await renderTasks(temp)
-
-// }
-
 async function setProject(title, id) {
    const docRef = await setDoc(doc(db, "projects", `${id}`), {
       title
@@ -75,24 +64,33 @@ export async function editProject(id, title) {
     title: title
   });
 }
-// async function setTask(title, id, projectId, description, priority, dueDate, notes, complete) {
-//   await setDoc(doc(db, "tasks", `${id}`), {
-//     title,
-//     id,
-//     projectId,
-//     description,
-//     priority,
-//     dueDate,
-//     notes,
-//     complete
-//   });
-// }
+export async function getTasks(renderTasks) {
+  const temp = []
+  const querySnapshot = await getDocs(collection(db, "tasks"));
+  querySnapshot.forEach((doc) => {
+    temp.push(doc.data());
+  });
+  createIdForArrayElements(temp);
+  Display.renderTasks(temp);
+}
+async function setTask(title, id, projectId, description, priority, dueDate, notes, complete) {
+  await setDoc(doc(db, "tasks", `${id}`), {
+    title,
+    id,
+    projectId,
+    description,
+    priority,
+    dueDate,
+    notes,
+    complete
+  });
+}
 
-// export function setTasks(taskArray) {
-//    taskArray.forEach(element => {
-//     setTask(element.title, element.id, element.projectId, element.description, element.priority, element.dueDate, element.notes, element.complete)
-//   });
-// }
+export function setTasks(taskArray) {
+   taskArray.forEach(element => {
+    setTask(element.title, element.id, element.projectId, element.description, element.priority, element.dueDate, element.notes, element.complete)
+  });
+}
 // async function deleteTask(id) {
 //   await deleteDoc(doc(db, "tasks", `${id}`), {
 //     id
