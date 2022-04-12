@@ -1,9 +1,16 @@
 const submitProject = document.querySelector("#submit-project");
+const editSubmitProject = document.querySelector("#edit-submit-project");
 const projectForm = document.querySelector("#project-form");
 const projectTitle = document.querySelector("#project-title");
+const editProjectTitle = document.querySelector("#edit-project-title");
 const projectModalContainer = document.querySelector(
   ".project-modal-container"
 );
+const editProjectModalContainer = document.querySelector(
+  ".edit-project-modal-container"
+);
+const allProjects = document.querySelector("#all-projects");
+const topText = document.querySelector(".top-text");
 const newTaskButton = document.querySelector(".new-task-button");
 const submitTask = document.querySelector("#submit-task");
 const taskTitle = document.querySelector("#title");
@@ -16,6 +23,7 @@ const taskNotes = document.querySelector("#notes");
 const editTaskNotes = document.querySelector("#edit-notes");
 const taskForm = document.querySelector("#task-form");
 const taskModalContainer = document.querySelector("#task-modal-container");
+const mainContentContainer = document.querySelector(".main-content-container")
 
 export function handleNewProjectEventListener (storeProjectDataInArray, renderApp) {
   submitProject.addEventListener("click", (e) => {
@@ -24,8 +32,35 @@ export function handleNewProjectEventListener (storeProjectDataInArray, renderAp
     projectForm.reset();
     projectModalContainer.classList.remove("show");
     newTaskButton.classList.remove("hide");
-    renderApp();
   })
+}
+
+// export function handleDeleteProjectEventListener(deleteProjectFromArray) {
+//   this.mainContainer.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     if (e.target.className === "projectsDeleteButton") {
+//       deleteProjectFromArray(parseInt(e.target.closest(".projectsDisplay").dataset.id));
+//       e.target.closest(".projectsDisplay").remove();
+//     }
+//   });
+// }
+
+export function handleEditProjectEventListener(editProject, renderApp) {
+  editSubmitProject.addEventListener("click", (e) => {
+    e.preventDefault();
+    editProject(e.target.dataset.id, editProjectTitle.value);
+    editProjectModalContainer.classList.remove("show");
+    renderApp();
+  });
+}
+
+export function handleAllProjectsEventListener(renderAllProjects, projectsArray, renderApp) {
+  allProjects.addEventListener("click", (e) => {
+    topText.textContent = "All Projects";
+    newTaskButton.classList.add("hide");
+    renderAllProjects(projectsArray);
+    renderApp();
+  });
 }
 
 export function handleNewTaskEventListener (storeTaskDataInArray, renderApp) {
@@ -36,10 +71,18 @@ export function handleNewTaskEventListener (storeTaskDataInArray, renderApp) {
       taskDescription.value,
       taskDueDate.value,
       taskNotes.value
-    );
+      );
     taskForm.reset();
     taskModalContainer.classList.remove("show");
-    renderApp();
   });
 }
 
+  export function handleDeleteTaskEventListener(deleteTaskFromArray) {
+    mainContentContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.className === "tasksDeleteButton") {
+      deleteTaskFromArray(parseInt(e.target.closest(".tasksDisplay").dataset.id));
+      e.target.closest(".tasksDisplay").remove();
+    }
+  });
+}
