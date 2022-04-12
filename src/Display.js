@@ -1,7 +1,7 @@
-import Task from "./Task";
+import {TodoApp} from "./TodoApp";
 
-function Display() {
-  const newTask = document.querySelector("#new-task");
+export const Display = (() => {
+  
   const taskModalContainer = document.querySelector("#task-modal-container");
   const editTaskModalContainer = document.querySelector(
     "#edit-task-modal-container"
@@ -9,17 +9,16 @@ function Display() {
   const submitTask = document.querySelector("#submit-task");
   const editSubmitTask = document.querySelector("#edit-submit-task");
   const taskForm = document.querySelector("#task-form");
-  const openProject = document.querySelector("#open-project");
-  const submitProject = document.querySelector("#submit-project");
+  const newProjectButton = document.querySelector(".new-project-button ");
+  const newTaskButton = document.querySelector(".new-task-button");
   const editSubmitProject = document.querySelector("#edit-submit-project");
-  const projectModalContainer = document.querySelector(
-    ".project-modal-container"
-  );
+  
   const editProjectModalContainer = document.querySelector(
     ".edit-project-modal-container"
   );
-  const projectForm = document.querySelector("#project-form");
-  const projectTitle = document.querySelector("#project-title");
+  const projectModalContainer = document.querySelector(
+    ".project-modal-container"
+  );
   const editProjectTitle = document.querySelector("#edit-project-title");
   const taskTitle = document.querySelector("#title");
   const editTaskTitle = document.querySelector("#edit-title");
@@ -29,20 +28,20 @@ function Display() {
   const editTaskDueDate = document.querySelector("#edit-dueDate");
   const taskNotes = document.querySelector("#notes");
   const editTaskNotes = document.querySelector("#edit-notes");
-  const mainContainerTop = document.querySelector(".main-container-top");
+  const mainContainer = document.querySelector(".main-container");
   const mainContainerTopTextContainer = document.querySelector(
     ".main-container-top-text-container"
   );
   const mainContainerTopText = document.querySelector(
     ".main-container-top-text"
   );
-  const mainContainer = document.querySelector(".main-container");
   const projectsContainer = document.querySelector(".projects-container");
   const allProjects = document.querySelector("#all-projects");
   const allTasks = document.querySelector("#all-tasks");
   const container = document.querySelector(".container");
   const taskModal = document.querySelector(".task-modal");
   const todayButton = document.querySelector(".today-button");
+  const mainContentContainer = document.querySelector(".main-content-container")
 
   return {
     renderAllProjects: (projectsArray) => {
@@ -110,25 +109,41 @@ function Display() {
           projectsArray[projectsArray.indexOf(element)].id
         );
         projectsContainer.appendChild(projectsSidebarButton);
+        console.log('test');
+        console.log(projectsContainer.firstChild);
+        console.log(projectsSidebarButton);
       });
     },
-    renderTasks: (taskArray) => {
-      while (mainContainer.firstChild) {
-        mainContainer.removeChild(mainContainer.firstChild);
+    renderOneProject: (doc) => {
+      const projectsSidebarButton = document.createElement("button");
+      projectsSidebarButton.classList.add("projectsSidebarButton");
+      projectsSidebarButton.textContent = doc.data().title;
+      projectsSidebarButton.setAttribute(
+        "data-id",
+        doc.id
+      );
+      projectsContainer.appendChild(projectsSidebarButton);
+      console.log('test');
+      console.log(projectsContainer.firstChild);
+      console.log(projectsSidebarButton);
+    },
+
+    renderOneTask: (doc) => {
+      while (mainContentContainer.firstChild) {
+        mainContentContainer.removeChild(mainContentContainer.firstChild);
       }
-      taskArray.forEach((element) => {
         const tasksDisplay = document.createElement("div");
         tasksDisplay.classList.add("tasksDisplay");
         tasksDisplay.setAttribute(
           "data-id",
-          taskArray[taskArray.indexOf(element)].id.toString()
+          doc.id
         );
-        mainContainer.appendChild(tasksDisplay);
+        mainContentContainer.appendChild(tasksDisplay);
         const tasksDisplayLeftContainer = document.createElement("div");
         tasksDisplayLeftContainer.classList.add("tasksDisplayLeftContainer");
         const tasksText = document.createElement("div");
         tasksText.classList.add("tasksText");
-        tasksText.textContent = element.title;
+        tasksText.textContent = doc.data().title;
         const tasksCheckBox = document.createElement("div");
         tasksCheckBox.classList.add("tasksCheckBox");
         const tasksDisplayRightContainer = document.createElement("div");
@@ -153,7 +168,7 @@ function Display() {
         dropdownContent.classList.add("dropdownContent");
         dropdownContent.setAttribute(
           "data-dropdown",
-          taskArray[taskArray.indexOf(element)].id.toString()
+          doc.id
         );
         const lowPriority = document.createElement("a");
         lowPriority.textContent = "low";
@@ -197,14 +212,14 @@ function Display() {
           });
         })();
         const displayCompleteStatus = (() => {
-          if (taskArray[taskArray.indexOf(element)].complete === true) {
+          if (doc.data().complete === true) {
             tasksText.style.textDecoration = "line-through";
             tasksCheckBox.style.backgroundColor = "#32fbe2";
           }
         })();
 
         const displayPriorityStatus = (() => {
-          switch (taskArray[taskArray.indexOf(element)].priority) {
+          switch (doc.data().priority) {
             case "low":
               dropdownButton.style.backgroundColor = "green";
               break;
@@ -222,29 +237,28 @@ function Display() {
               e.target.className === "tasksText" ||
               e.target.id === "tasksEditIcon"
             ) {
-              editTaskTitle.value = taskArray[taskArray.indexOf(element)].title;
+              editTaskTitle.value = doc.data.title;
               editTaskDescription.value =
-                taskArray[taskArray.indexOf(element)].description;
+                doc.data().description;
               editTaskDueDate.value =
-                taskArray[taskArray.indexOf(element)].dueDate;
-              editTaskNotes.value = taskArray[taskArray.indexOf(element)].notes;
+                doc.data().dueDate;
+              editTaskNotes.value = doc.data().notes;
               editTaskModalContainer.classList.add("show");
               editSubmitTask.setAttribute(
                 "data-id",
-                taskArray[taskArray.indexOf(element)].id.toString()
+                doc.id
               );
             }
           });
         })();
-      });
     },
     renderNewProjectModal: () => {
-      openProject.addEventListener("click", () => {
+      newProjectButton.addEventListener("click", () => {
         projectModalContainer.classList.add("show");
       });
     },
     renderNewTaskModal: () => {
-      newTask.addEventListener("click", () => {
+      newTaskButton.addEventListener("click", () => {
         taskModalContainer.classList.add("show");
         taskTitle.focus();
         taskDueDate.valueAsDate = new Date();
@@ -282,6 +296,4 @@ function Display() {
       };
     },
   };
-}
-
-export default Display;
+})()
