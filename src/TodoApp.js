@@ -2,12 +2,10 @@ import {Display} from "./Display.js";
 import {Project} from "./Project.js"
 import {Task} from "./Task.js"
 import { createIdForArrayElements } from "./IdFunctions.js";
-import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener } from "./EventHandlers.js";
-import {setProjects, deleteProject, editProject, getSidebarProjects, getAllProjects, setTasks, deleteTask, getTasks } from "./FirebaseFunctions.js";
+import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener, handleEditTaskEventListener } from "./EventHandlers.js";
+import {setProject, deleteProject, editProject, getSidebarProjects, getAllProjects, setTasks, deleteTask, editTask, getTasks } from "./FirebaseFunctions.js";
 
 export const TodoApp = () => {
-  let projectsArray = [];
-  let tasksArray = [];
   
   const initModals = () => {
     Display.renderNewProjectModal();
@@ -25,42 +23,30 @@ export const TodoApp = () => {
     getAllProjects()
   }
 
-  const storeProjectInArray  = (title) =>{
-    const newProject = Project();
-    projectsArray.push(newProject);
-    createIdForArrayElements(projectsArray);
-    newProject.title = title;
-    setProjects(projectsArray);
+  const storeProjectInFireStore  = (title) =>{
+    setProject(title);
     getSidebarProjects()
   }
-  const editProjectInArray = (id, title) =>{
-    projectsArray.forEach((e) => {
-      if (parseInt(id) === e.id) {
-        e.title = title;
-        editProject(id, title)
-      }
-    });
-    createIdForArrayElements(projectsArray);
+  const editProjectInFireStore = (id, title) =>{
+    editProject(id, title);
     getAllProjects();
     getSidebarProjects();
   }
   
 
-  const deleteProjectFromArray = (id) => {
+  const deleteProjectFromFirestore = (id) => {
     /////////deletes tasks associated with project /////////////
-    let temp = [];
-    let deletedProject = {};
-    temp = projectsArray.filter((e) => e.id === parseInt(id));
-    deletedProject = temp[0];
-    tasksArray = tasksArray.filter(
-      (e) => e.projectId !== deletedProject.id
-    );
+    // let temp = [];
+    // let deletedProject = {};
+    // temp = projectsArray.filter((e) => e.id === parseInt(id));
+    // deletedProject = temp[0];
+    // tasksArray = tasksArray.filter(
+    //   (e) => e.projectId !== deletedProject.id
+    // );
     //////deletes project/////////
-    projectsArray = projectsArray.filter((e) => e.id !== parseInt(id));
-    console.log(projectsArray);
-    createIdForArrayElements(projectsArray);
+    // projectsArray = projectsArray.filter((e) => e.id !== parseInt(id));
     deleteProject(id);
-    getAllProjects();
+    // getAllProjects();
     getSidebarProjects();
   };
 
@@ -80,23 +66,33 @@ export const TodoApp = () => {
     tasksArray = tasksArray.filter(function (e) {
       return e.id !== parseInt(id);
     });
-    // currentProject.array = currentProject.array.filter(
-    //   function (e) {
-    //     return e.id !== parseInt(id);
-    //   }
-    // );
-    // todasyTaskArray = todasyTaskArray.filter(function (e) {
-    //   return e.id !== parseInt(id);
-    // });
-    deleteTask(id)
     createIdForArrayElements(tasksArray);
+    deleteTask(id)
     getTasks();
   }
+
+  const editTaskInArray = (id, title, description, dueDate, notes) => {
+    console.log(tasksArray);
+    tasksArray.forEach((e) => {
+      if (parseInt(id) === parseInt(e.id)) {
+        console.log('match');
+        e.title = title;
+        e.description = description;
+        e.dueDate = dueDate;
+        e.notes = notes;
+      }
+      createIdForArrayElements(tasksArray);
+      editTask(id, title);
+      getTasks();
+    });
+  }
   
-  handleNewProjectEventListener(storeProjectInArray);
-  handleDeleteProjectEventListener(deleteProjectFromArray);
-  handleEditProjectEventListener(editProjectInArray);
+  
+  handleNewProjectEventListener(storeProjectInFireStore);
+  handleDeleteProjectEventListener(deleteProjectFromFirestore);
+  handleEditProjectEventListener(editProjectInFireStore);
   handleAllProjectsEventListener(showAllProjects);
   handleNewTaskEventListener(storeTaskInArray);
   handleDeleteTaskEventListener(deleteTaskFromArray);
-}
+  handleEditTaskEventListener(editTaskInArray)
+};
