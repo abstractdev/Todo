@@ -1,8 +1,8 @@
 import {Display} from "./Display.js";
 import {Project} from "./Project.js"
 import {Task} from "./Task.js"
-import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener, handleEditTaskEventListener, handleAllTasksEventListener, handleUpdateTaskCompleteStatus } from "./EventHandlers.js";
-import {setProject, deleteProject, editProject, getSidebarProjects, getAllProjects, setTask, deleteTask, editTask, getTasks, editTaskComplete } from "./FirebaseFunctions.js";
+import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener, handleEditTaskEventListener, handleAllTasksEventListener, handleUpdateTaskCompleteStatus, handleUpdateTaskPriority } from "./EventHandlers.js";
+import {setProject, deleteProject, editProject, getSidebarProjects, getAllProjects, setTask, deleteTask, editTask, getTasks, editTaskComplete, editTaskPriority } from "./FirebaseFunctions.js";
 
 export const TodoApp = () => {
   
@@ -51,6 +51,9 @@ export const TodoApp = () => {
   const updateTaskCompleteStatus = (id, status) => {
       editTaskComplete(id, status);
       }
+  const updateTaskPriority = (id, status) => {
+      editTaskPriority(id, status);
+      }
 
     handleNewProjectEventListener(storeProjectInFireStore);
     handleDeleteProjectEventListener(deleteProjectFromFirestore);
@@ -61,4 +64,5 @@ export const TodoApp = () => {
     handleEditTaskEventListener(editTaskInFirestore);
     handleAllTasksEventListener(showAllTasks);
     handleUpdateTaskCompleteStatus(updateTaskCompleteStatus);
+    handleUpdateTaskPriority(updateTaskPriority);
 }

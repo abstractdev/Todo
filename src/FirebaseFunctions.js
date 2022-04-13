@@ -104,3 +104,10 @@ export async function editTaskComplete(id, status) {
   });
   getTasks();
 }
+export async function editTaskPriority(id, status) {
+  const ref = (doc(db, "tasks", `${id}`))
+  await updateDoc(ref, {
+    priority: status
+  });
+  getTasks();
+}
