@@ -43,11 +43,13 @@ export async function setProject(title) {
    const docRef = await addDoc(collection(db, "projects"), {
       title
     });
+    getSidebarProjects()
   }
 export async function deleteProject(id) {
   await deleteDoc(doc(db, "projects", `${id}`), {
     id
   });
+  getSidebarProjects();
 }
 export async function editProject(id, title) {
   const ref = (doc(db, "projects", `${id}`))
@@ -55,44 +57,50 @@ export async function editProject(id, title) {
     id,
     title
   });
+  getAllProjects();
+  getSidebarProjects();
 }
 
-// export async function getTasks(tasksArray) {
-//   const temp = []
-//   const querySnapshot = await getDocs(collection(db, "tasks"));
-//   querySnapshot.forEach((doc) => {
-//     temp.push(doc.data());
-//   });
-//   createIdForArrayElements(temp);
-//   tasksArray = temp;
-//   Display.renderTasks(temp);
-// }
-// async function setTask(title, id, projectId, description, priority, dueDate, notes, complete) {
-//   await setDoc(doc(db, "tasks", `${id}`), {
-//     title,
-//     id,
-//     projectId,
-//     description,
-//     priority,
-//     dueDate,
-//     notes,
-//     complete
-//   });
-// }
-// export function setTasks(taskArray) {
-//    taskArray.forEach(element => {
-//     setTask(element.title, element.id, element.projectId, element.description, element.priority, element.dueDate, element.notes, element.complete)
-//   });
-// }
-// export async function deleteTask(id) {
-//   await deleteDoc(doc(db, "tasks", `${id}`), {
-//     id
-//   });
-// }
+export async function getTasks() {
+  console.log('a');
+  const querySnapshot = await getDocs(collection(db, "tasks"));
+  console.log('b');
+  const temp = []
+  querySnapshot.forEach((doc) => {
+    temp.push({...doc.data(), id: doc.id});
+  });
+  Display.renderTasks(temp);
+}
+export async function setTask(title, description, dueDate, notes) {
+  await addDoc(collection(db, "tasks"), {
+    title,
+    projectId: null,
+    description,
+    priority: null,
+    dueDate,
+    notes,
+    complete: null
+  });
+  getTasks();
+}
+export async function deleteTask(id) {
+  await deleteDoc(doc(db, "tasks", `${id}`), {
+    id
+  });
+  getTasks();
+}
 
-// export async function editTask(id, title) {
-//   const ref = (doc(db, "tasks", `${id}`))
-//   await updateDoc(ref, {
-//     title
-//   });
-// }
+export async function editTask(id, title) {
+  const ref = (doc(db, "tasks", `${id}`))
+  await updateDoc(ref, {
+    title
+  });
+  getTasks();
+}
+export async function editTaskComplete(id, status) {
+  const ref = (doc(db, "tasks", `${id}`))
+  await updateDoc(ref, {
+    complete: status
+  });
+  getTasks();
+}
