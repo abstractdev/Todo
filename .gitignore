@@ -2,3 +2,4 @@ node_modules
 src/style.css
 src/style.css.map
 webpack.config.js
+dist/
