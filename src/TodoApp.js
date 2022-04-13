@@ -1,11 +1,8 @@
 import {Display} from "./Display.js";
-import {Project} from "./Project.js"
-import {Task} from "./Task.js"
-import {handleNewProjectEventListener, handleEditProjectEventListener, handleDeleteProjectEventListener, handleAllProjectsEventListener, handleNewTaskEventListener, handleDeleteTaskEventListener, handleEditTaskEventListener, handleAllTasksEventListener, handleUpdateTaskCompleteStatus, handleUpdateTaskPriority } from "./EventHandlers.js";
-import {setProject, deleteProject, editProject, getSidebarProjects, getAllProjects, setTask, deleteTask, editTask, getTasks, editTaskComplete, editTaskPriority } from "./FirebaseFunctions.js";
+import {setProject, deleteProject, editProject, getSidebarProjects, getAllProjects, setTask, deleteTask, editTask, getTasks, editTaskComplete, editTaskPriority, showTodayTasks, filterAndRenderCurrentProjectTasks } from "./FirebaseFunctions.js";
 
 export const TodoApp = () => {
-  
+
   const initModals = () => {
     Display.renderNewProjectModal();
     Display.renderNewTaskModal();
@@ -13,9 +10,10 @@ export const TodoApp = () => {
   }
 
   const initDisplay = (() => {
-    initModals()
-    getSidebarProjects()
-    getTasks()
+    initModals();
+    getSidebarProjects();
+    getTasks();
+    Display.initCurrentProject();
     })()
 
   const showAllProjects = () => {
@@ -36,8 +34,9 @@ export const TodoApp = () => {
     getTasks()
   }
 
-  const storeTaskInFirestore = (title, description, dueDate, notes) => {
-    setTask(title, description, dueDate, notes);
+  const storeTaskInFirestore = (title, description, dueDate, notes, currentProjectId) => {
+    setTask(title, description, dueDate, notes, currentProjectId);
+    filterAndRenderCurrentProjectTasks(currentProjectId);
   }
 
   const deleteTaskFromFirestore = (id) => {
@@ -55,14 +54,24 @@ export const TodoApp = () => {
       editTaskPriority(id, status);
       }
 
-    handleNewProjectEventListener(storeProjectInFireStore);
-    handleDeleteProjectEventListener(deleteProjectFromFirestore);
-    handleEditProjectEventListener(editProjectInFireStore);
-    handleAllProjectsEventListener(showAllProjects);
-    handleNewTaskEventListener(storeTaskInFirestore);
-    handleDeleteTaskEventListener(deleteTaskFromFirestore);
-    handleEditTaskEventListener(editTaskInFirestore);
-    handleAllTasksEventListener(showAllTasks);
-    handleUpdateTaskCompleteStatus(updateTaskCompleteStatus);
-    handleUpdateTaskPriority(updateTaskPriority);
+  const updateTodayTasks = () => {
+    showTodayTasks()
+  }
+
+  const updateCurrentProject = (id) => {
+    filterAndRenderCurrentProjectTasks(id)
+  }
+
+    Display.handleNewProjectEventListener(storeProjectInFireStore);
+    Display.handleDeleteProjectEventListener(deleteProjectFromFirestore);
+    Display.handleEditProjectEventListener(editProjectInFireStore);
+    Display.handleAllProjectsEventListener(showAllProjects);
+    Display.handleNewTaskEventListener(storeTaskInFirestore, updateCurrentProject);
+    Display.handleDeleteTaskEventListener(deleteTaskFromFirestore);
+    Display.handleEditTaskEventListener(editTaskInFirestore);
+    Display.handleAllTasksEventListener(showAllTasks);
+    Display.handleUpdateTaskCompleteStatus(updateTaskCompleteStatus);
+    Display.handleUpdateTaskPriority(updateTaskPriority);
+    Display.handleUpdateTodayTasks(updateTodayTasks);
+    Display.handleUpdateCurrentProject(updateCurrentProject);
 }

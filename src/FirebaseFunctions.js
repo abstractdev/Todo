@@ -1,8 +1,9 @@
-import { collection, addDoc, setDoc, doc, deleteDoc, query, getDocs, updateDoc} from "firebase/firestore"; 
+import { collection, addDoc, setDoc, doc, deleteDoc, query, where, getDocs, updateDoc} from "firebase/firestore"; 
 import {getFirestore} from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 import {Display} from "./Display"
-import { createIdForArrayElements } from "./IdFunctions";
+import parseISO from "date-fns/parseISO";
+import isToday from "date-fns/isToday";
 
 const firebaseConfig = {
 
@@ -62,26 +63,23 @@ export async function editProject(id, title) {
 }
 
 export async function getTasks() {
-  console.log('a');
   const querySnapshot = await getDocs(collection(db, "tasks"));
-  console.log('b');
   const temp = []
   querySnapshot.forEach((doc) => {
     temp.push({...doc.data(), id: doc.id});
   });
   Display.renderTasks(temp);
 }
-export async function setTask(title, description, dueDate, notes) {
+export async function setTask(title, description, dueDate, notes, projectId) {
   await addDoc(collection(db, "tasks"), {
     title,
-    projectId: null,
+    projectId,
     description,
     priority: null,
     dueDate,
     notes,
     complete: null
   });
-  getTasks();
 }
 export async function deleteTask(id) {
   await deleteDoc(doc(db, "tasks", `${id}`), {
@@ -90,10 +88,13 @@ export async function deleteTask(id) {
   getTasks();
 }
 
-export async function editTask(id, title) {
+export async function editTask(id, title, description, dueDate, notes) {
   const ref = (doc(db, "tasks", `${id}`))
   await updateDoc(ref, {
-    title
+    title,
+    description,
+    dueDate,
+    notes
   });
   getTasks();
 }
@@ -110,4 +111,28 @@ export async function editTaskPriority(id, status) {
     priority: status
   });
   getTasks();
+}
+
+export async function showTodayTasks() {
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    const temp = []
+      querySnapshot.forEach((doc) => {
+      temp.push({...doc.data(), id: doc.id});
+      });
+      
+    const todayTaskArray = temp.filter((e) => {
+        const parsedDate = parseISO(e.dueDate);
+        return isToday(parsedDate);
+    });
+    Display.renderTasks(todayTaskArray);
+  }
+
+export async function filterAndRenderCurrentProjectTasks (id) {
+  const q = query(collection(db, "tasks"), where("projectId", "==", id));
+  const querySnapshot = await getDocs(q);
+  const temp = []
+  querySnapshot.forEach((doc) => {
+    temp.push({...doc.data(), id: doc.id});
+  });
+  Display.renderTasks(temp);
 }
