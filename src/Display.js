@@ -1,7 +1,4 @@
-import {TodoApp} from "./TodoApp";
-
 export const Display = (() => {
-  
   const taskModalContainer = document.querySelector("#task-modal-container");
   const editTaskModalContainer = document.querySelector(
     "#edit-task-modal-container"
@@ -12,7 +9,7 @@ export const Display = (() => {
   const newProjectButton = document.querySelector(".new-project-button ");
   const newTaskButton = document.querySelector(".new-task-button");
   const editSubmitProject = document.querySelector("#edit-submit-project");
-  
+
   const editProjectModalContainer = document.querySelector(
     ".edit-project-modal-container"
   );
@@ -28,7 +25,7 @@ export const Display = (() => {
   const editTaskDueDate = document.querySelector("#edit-dueDate");
   const taskNotes = document.querySelector("#notes");
   const editTaskNotes = document.querySelector("#edit-notes");
-  const sidebarContainer = document.querySelector(".sidebar-container")
+  const sidebarContainer = document.querySelector(".sidebar-container");
   const projectsContainer = document.querySelector(".projects-container");
   const allProjects = document.querySelector("#all-projects");
   const allTasks = document.querySelector("#all-tasks");
@@ -36,20 +33,24 @@ export const Display = (() => {
   const taskModal = document.querySelector(".task-modal");
   const todayButton = document.querySelector(".today-button");
   const mainContainer = document.querySelector(".main-container");
-  const mainContentContainer = document.querySelector(".main-content-container");
-  const mainProjectsContainer = document.querySelector(".main-projects-container");
+  const mainContentContainer = document.querySelector(
+    ".main-content-container"
+  );
+  const mainProjectsContainer = document.querySelector(
+    ".main-projects-container"
+  );
   const mainTasksContainer = document.querySelector(".main-tasks-container");
   const submitProject = document.querySelector("#submit-project");
-const projectForm = document.querySelector("#project-form");
-const projectTitle = document.querySelector("#project-title");
-const topText = document.querySelector(".top-text");
-let currentProjectId;
+  const projectForm = document.querySelector("#project-form");
+  const projectTitle = document.querySelector("#project-title");
+  const topText = document.querySelector(".top-text");
+  let currentProjectId;
 
-function initCurrentProject(){
-  if (!currentProjectId) {
-    currentProjectId = 'Default'
+  function initCurrentProject() {
+    if (!currentProjectId) {
+      currentProjectId = "Default";
+    }
   }
-}
 
   return {
     initCurrentProject,
@@ -58,24 +59,24 @@ function initCurrentProject(){
         mainContentContainer.removeChild(mainContentContainer.firstChild);
       }
       projectsArray.forEach((element) => {
-       const projectsDisplay = document.createElement("div");
+        const projectsDisplay = document.createElement("div");
         projectsDisplay.classList.add("projectsDisplay");
-        projectsDisplay.setAttribute(
-          "data-id",
-          element.id.toString());
+        projectsDisplay.setAttribute("data-id", element.id.toString());
         mainContentContainer.appendChild(projectsDisplay);
         const projectsText = document.createElement("div");
         projectsText.classList.add("projectsText");
         projectsText.textContent = element.title;
-        projectsDisplay.appendChild(projectsText)
-        const projectsDisplayRightContainer = document.createElement('div');
-        projectsDisplayRightContainer.classList.add('projectsDisplayRightContainer')
-        const projectsEditIconContainer = document.createElement('div');
-        projectsEditIconContainer.classList.add('projectsEditIconContainer')
-        const projectsEditIcon = document.createElement('i');
+        projectsDisplay.appendChild(projectsText);
+        const projectsDisplayRightContainer = document.createElement("div");
+        projectsDisplayRightContainer.classList.add(
+          "projectsDisplayRightContainer"
+        );
+        const projectsEditIconContainer = document.createElement("div");
+        projectsEditIconContainer.classList.add("projectsEditIconContainer");
+        const projectsEditIcon = document.createElement("i");
         projectsEditIcon.classList.add("fa-solid");
         projectsEditIcon.classList.add("fa-pen");
-        projectsEditIcon.setAttribute("id", "projectsEditIcon")
+        projectsEditIcon.setAttribute("id", "projectsEditIcon");
         const projectsDeleteButton = document.createElement("button");
         projectsDeleteButton.classList.add("projectsDeleteButton");
         projectsDeleteButton.textContent = "Del";
@@ -83,14 +84,19 @@ function initCurrentProject(){
         projectsDisplayRightContainer.appendChild(projectsEditIconContainer);
         projectsEditIconContainer.appendChild(projectsEditIcon);
         projectsDisplayRightContainer.appendChild(projectsDeleteButton);
-  
+
         const renderEditProjectModal = (() => {
           projectsDisplay.addEventListener("click", (e) => {
-            if (e.target.className === "projectsText" || e.target.id === "projectsEditIcon") {
-              editProjectTitle.value =
-                element.title;
+            if (
+              e.target.className === "projectsText" ||
+              e.target.id === "projectsEditIcon"
+            ) {
+              editProjectTitle.value = element.title;
               editProjectModalContainer.classList.add("show");
-              editSubmitProject.setAttribute("data-id", e.target.closest('.projectsDisplay').dataset.id);
+              editSubmitProject.setAttribute(
+                "data-id",
+                e.target.closest(".projectsDisplay").dataset.id
+              );
             }
           });
         })();
@@ -104,10 +110,7 @@ function initCurrentProject(){
         const projectsSidebarButton = document.createElement("button");
         projectsSidebarButton.classList.add("projectsSidebarButton");
         projectsSidebarButton.textContent = element.title;
-        projectsSidebarButton.setAttribute(
-          "data-id",
-          element.id.toString()
-        );
+        projectsSidebarButton.setAttribute("data-id", element.id.toString());
         projectsContainer.appendChild(projectsSidebarButton);
       });
     },
@@ -121,25 +124,23 @@ function initCurrentProject(){
       taskArray.forEach((element) => {
         const tasksDisplay = document.createElement("div");
         tasksDisplay.classList.add("tasksDisplay");
-        tasksDisplay.setAttribute(
-          "data-id",
-          element.id.toString());
+        tasksDisplay.setAttribute("data-id", element.id.toString());
         mainContentContainer.appendChild(tasksDisplay);
-        const tasksDisplayLeftContainer = document.createElement('div');
-        tasksDisplayLeftContainer.classList.add('tasksDisplayLeftContainer')
+        const tasksDisplayLeftContainer = document.createElement("div");
+        tasksDisplayLeftContainer.classList.add("tasksDisplayLeftContainer");
         const tasksText = document.createElement("div");
         tasksText.classList.add("tasksText");
         tasksText.textContent = element.title;
         const tasksCheckBox = document.createElement("div");
         tasksCheckBox.classList.add("tasksCheckBox");
-        const tasksDisplayRightContainer = document.createElement('div');
-        tasksDisplayRightContainer.classList.add('tasksDisplayRightContainer')
-        const tasksEditIconContainer = document.createElement('div');
-        tasksEditIconContainer.classList.add('tasksEditIconContainer');
+        const tasksDisplayRightContainer = document.createElement("div");
+        tasksDisplayRightContainer.classList.add("tasksDisplayRightContainer");
+        const tasksEditIconContainer = document.createElement("div");
+        tasksEditIconContainer.classList.add("tasksEditIconContainer");
         const tasksEditIcon = document.createElement("span");
         tasksEditIcon.classList.add("fa-solid");
         tasksEditIcon.classList.add("fa-pen");
-        tasksEditIcon.setAttribute("id", "tasksEditIcon")
+        tasksEditIcon.setAttribute("id", "tasksEditIcon");
         const tasksDeleteButton = document.createElement("button");
         tasksDeleteButton.classList.add("tasksDeleteButton");
         tasksDeleteButton.textContent = "Del";
@@ -152,9 +153,7 @@ function initCurrentProject(){
         dropdownButton.textContent = "Priority";
         const dropdownContent = document.createElement("div");
         dropdownContent.classList.add("dropdownContent");
-        dropdownContent.setAttribute(
-          "data-dropdown",
-          element.id.toString());
+        dropdownContent.setAttribute("data-dropdown", element.id.toString());
         const lowPriority = document.createElement("a");
         lowPriority.textContent = "low";
         lowPriority.href = "#";
@@ -182,11 +181,13 @@ function initCurrentProject(){
         dropdownContent.appendChild(highPriority);
         dropdownContainer.appendChild(dropdown);
         tasksDisplayRightContainer.appendChild(tasksDeleteButton);
-  
+
         const addDropdownListeners = (() => {
           dropdownButton.addEventListener("click", (e) => {
             if (e.target.className === "dropdownButton") {
-              document.querySelector(`[data-dropdown="${element.id.toString()}"]`).classList.toggle("showDropdown");
+              document
+                .querySelector(`[data-dropdown="${element.id.toString()}"]`)
+                .classList.toggle("showDropdown");
             }
           });
         })();
@@ -196,7 +197,7 @@ function initCurrentProject(){
             tasksCheckBox.style.backgroundColor = "#32fbe2";
           }
         })();
-  
+
         const displayPriorityStatus = (() => {
           switch (element.priority) {
             case "low":
@@ -212,19 +213,16 @@ function initCurrentProject(){
         })();
         const renderEditTaskModal = (() => {
           tasksDisplay.addEventListener("click", (e) => {
-            if (e.target.className === "tasksText" || e.target.id === "tasksEditIcon") {
-              editTaskTitle.value =
-                element.title;
-              editTaskDescription.value =
-                element.description;
-              editTaskDueDate.value =
-                element.dueDate;
-              editTaskNotes.value =
-                element.notes;
+            if (
+              e.target.className === "tasksText" ||
+              e.target.id === "tasksEditIcon"
+            ) {
+              editTaskTitle.value = element.title;
+              editTaskDescription.value = element.description;
+              editTaskDueDate.value = element.dueDate;
+              editTaskNotes.value = element.notes;
               editTaskModalContainer.classList.add("show");
-              editSubmitTask.setAttribute(
-                "data-id",
-                element.id.toString());
+              editSubmitTask.setAttribute("data-id", element.id.toString());
             }
           });
         })();
@@ -275,8 +273,8 @@ function initCurrentProject(){
       };
     },
 
-////////////////////EVENT LISTENERS/////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////EVENT LISTENERS/////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
     handleNewProjectEventListener: (storeProjectInFireStore) => {
       submitProject.addEventListener("click", (e) => {
         e.preventDefault();
@@ -284,10 +282,10 @@ function initCurrentProject(){
         projectForm.reset();
         projectModalContainer.classList.remove("show");
         newTaskButton.classList.remove("hide");
-      })
+      });
     },
-    
-    handleDeleteProjectEventListener:(deleteProject) => {
+
+    handleDeleteProjectEventListener: (deleteProject) => {
       mainContentContainer.addEventListener("click", (e) => {
         e.preventDefault();
         if (e.target.className === "projectsDeleteButton") {
@@ -296,24 +294,24 @@ function initCurrentProject(){
         }
       });
     },
-    
-    handleEditProjectEventListener:(editProjectInArray) => {
+
+    handleEditProjectEventListener: (editProjectInArray) => {
       editSubmitProject.addEventListener("click", (e) => {
         e.preventDefault();
         editProjectInArray(e.target.dataset.id, editProjectTitle.value);
         editProjectModalContainer.classList.remove("show");
       });
     },
-    
-    handleAllProjectsEventListener:(showAllProjects) => {
+
+    handleAllProjectsEventListener: (showAllProjects) => {
       allProjects.addEventListener("click", (e) => {
         topText.textContent = "All Projects";
-        newTaskButton.style.display = 'none';
-        topText.style.textAlign = 'center;'
+        newTaskButton.style.display = "none";
+        topText.style.textAlign = "center;";
         showAllProjects();
       });
     },
-    
+
     handleNewTaskEventListener: (storeTaskInFirestore) => {
       submitTask.addEventListener("click", (e) => {
         e.preventDefault();
@@ -323,14 +321,14 @@ function initCurrentProject(){
           taskDueDate.value,
           taskNotes.value,
           currentProjectId
-          );
+        );
         taskForm.reset();
         taskModalContainer.classList.remove("show");
       });
     },
-    
-      handleDeleteTaskEventListener:(deleteTaskFromFirestore) => {
-        mainContentContainer.addEventListener("click", (e) => {
+
+    handleDeleteTaskEventListener: (deleteTaskFromFirestore) => {
+      mainContentContainer.addEventListener("click", (e) => {
         e.preventDefault();
         if (e.target.className === "tasksDeleteButton") {
           deleteTaskFromFirestore(e.target.closest(".tasksDisplay").dataset.id);
@@ -338,8 +336,8 @@ function initCurrentProject(){
         }
       });
     },
-    
-    handleEditTaskEventListener:(editTaskInFirestore) => {
+
+    handleEditTaskEventListener: (editTaskInFirestore) => {
       editSubmitTask.addEventListener("click", (e) => {
         e.preventDefault();
         editTaskInFirestore(
@@ -360,27 +358,27 @@ function initCurrentProject(){
         }
       });
     },
-    
-    handleAllTasksEventListener:(showAllTasks) => {
+
+    handleAllTasksEventListener: (showAllTasks) => {
       allTasks.addEventListener("click", (e) => {
         topText.textContent = "All Tasks";
-        newTaskButton.style.display = 'none';
+        newTaskButton.style.display = "none";
         showAllTasks();
       });
     },
-    
-    handleUpdateTaskCompleteStatus:(updateTaskCompleteStatus) => {
+
+    handleUpdateTaskCompleteStatus: (updateTaskCompleteStatus) => {
       mainContentContainer.addEventListener("click", (e) => {
         e.preventDefault();
         if (
           e.target.className === "tasksCheckBox" &&
           e.target.style.backgroundColor === ""
-          ) {
-            updateTaskCompleteStatus(
-              e.target.closest(".tasksDisplay").dataset.id,
-              true
-              );
-            } else if (e.target.className === "tasksCheckBox") {
+        ) {
+          updateTaskCompleteStatus(
+            e.target.closest(".tasksDisplay").dataset.id,
+            true
+          );
+        } else if (e.target.className === "tasksCheckBox") {
           updateTaskCompleteStatus(
             e.target.closest(".tasksDisplay").dataset.id,
             false
@@ -388,8 +386,8 @@ function initCurrentProject(){
         }
       });
     },
-    
-    handleUpdateTaskPriority:(updateTaskPriority) => {
+
+    handleUpdateTaskPriority: (updateTaskPriority) => {
       mainContentContainer.addEventListener("click", (e) => {
         e.preventDefault();
         if (e.target.className === "lowPriority") {
@@ -410,25 +408,25 @@ function initCurrentProject(){
         }
       });
     },
-    
-    handleUpdateTodayTasks:(updateTodayTasks) => {
+
+    handleUpdateTodayTasks: (updateTodayTasks) => {
       todayButton.addEventListener("click", (e) => {
         topText.textContent = "Today";
-        newTaskButton.style.display = 'none';
+        newTaskButton.style.display = "none";
         updateTodayTasks();
       });
     },
-    
-    handleUpdateCurrentProject:(updateCurrentProject) => {
+
+    handleUpdateCurrentProject: (updateCurrentProject) => {
       projectsContainer.addEventListener("click", (e) => {
         e.preventDefault();
         if (e.target.className === "projectsSidebarButton") {
-          newTaskButton.style.display = 'block';
-          currentProjectId = (e.target.dataset.id);
+          newTaskButton.style.display = "block";
+          currentProjectId = e.target.dataset.id;
           updateCurrentProject(e.target.dataset.id);
           topText.textContent = e.target.textContent;
         }
       });
     },
   };
-})()
+})();

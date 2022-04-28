@@ -3,3 +3,6 @@ src/style.css
 src/style.css.map
 webpack.config.js
 dist/
+dist/index.html
+dist/main.js
+key.js

@@ -1,2 +1,2 @@
-import {TodoApp} from "./TodoApp.js";
+import { TodoApp } from "./TodoApp.js";
 TodoApp();
