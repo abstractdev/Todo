@@ -2,15 +2,15 @@ Todo
 ![Alt text](./todo.png "Title")
 ============
 
-A mobile responsive Todo App written in Vanilla Javascript
+A mobile responsive Todo app written in vanilla Javascript
 
 ---
 
 ## Features
 - Projects and tasks are persisted and stored in Firebase
 - Can perform all CRUD operations on tasks and projects
-- Can view Today's tasks / All Tasks / All Projects
-- Can view tasks grouped by Project
+- Can view today's tasks / all tasks / all projects
+- Can view tasks grouped by project
 - Color coded task priority
 - Task completion strikethrough indicator
 - Click outside modal
