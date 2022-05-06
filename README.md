@@ -19,6 +19,7 @@ A mobile responsive Todo app written in vanilla Javascript
 - SCSS
 - Firebase
 - Webpack
+- Date-Fns
 ## Concepts
 - Async/Await
 - ES6 Modules
