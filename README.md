@@ -1,5 +1,5 @@
 Todo [LIVE](https://abstractdev.github.io/Todo/)
-![Alt text](./todo.png "Title")
+![Alt text](./todo.png "Todo")
 ============
 
 A mobile responsive Todo app written in vanilla Javascript
