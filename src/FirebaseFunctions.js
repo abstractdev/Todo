@@ -14,7 +14,6 @@ import { initializeApp } from "firebase/app";
 import { Display } from "./Display";
 import parseISO from "date-fns/parseISO";
 import isToday from "date-fns/isToday";
-import { apiKey } from "../key";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAjViD89jF0Ow8hmB38VvQPpIsqsIFLPXw",
