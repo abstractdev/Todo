@@ -17,7 +17,7 @@ import isToday from "date-fns/isToday";
 import { apiKey } from "../key";
 
 const firebaseConfig = {
-  apiKey,
+  apiKey: "AIzaSyAjViD89jF0Ow8hmB38VvQPpIsqsIFLPXw",
 
   authDomain: "todo2-cf22a.firebaseapp.com",
 
