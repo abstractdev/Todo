@@ -763,3 +763,22 @@ textarea {
     font-size: 1rem;
   }
 }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  padding: .5rem 0;
+  font-size: 1rem;
+}
+
+.github-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: black;
+}
