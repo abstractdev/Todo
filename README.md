@@ -1,7 +1,8 @@
-Todo [LIVE](https://abstractdev.github.io/Todo/)
-![Alt text](./todo.png "Todo")
+Todo
+[![Todo](/todo.png)](https://abstractdev.github.io/Todo/)
 ============
 
+[Live Demo](https://abstractdev.github.io/Todo/)</br>
 A mobile responsive Todo app written in vanilla Javascript
 
 ---
@@ -16,7 +17,7 @@ A mobile responsive Todo app written in vanilla Javascript
 - Click outside modal
 ## Built With
 - Vanilla Javascript
-- SCSS
+- Sass
 - Firebase
 - Webpack
 - Date-Fns
@@ -26,8 +27,7 @@ A mobile responsive Todo app written in vanilla Javascript
 - Factory Functions
 - IIFEs
 - Callback functions
-- SCSS Variables
+- Sass Variables
 - Using Pseudoclasses for Icons
 - CSS Grid
 ---
-
