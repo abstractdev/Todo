@@ -1,8 +1,8 @@
 Todo
-[![Todo](/todo.png)](https://abstractdev.github.io/Todo/)
+[![Todo](/todo.png)](https://abstractdev.github.io/todo/)
 ============
 
-[Live Demo](https://abstractdev.github.io/Todo/)</br>
+[Live Demo](https://abstractdev.github.io/todo/)</br>
 A mobile responsive Todo app written in vanilla Javascript
 
 ---
