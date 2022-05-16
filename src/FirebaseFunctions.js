@@ -8,6 +8,8 @@ import {
   where,
   getDocs,
   updateDoc,
+  orderBy,
+  serverTimestamp
 } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
@@ -31,9 +33,11 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const projectsRef = collection(db, "projects");
+const tasksRef = collection(db, "tasks");
 
 export async function getSidebarProjects() {
-  const querySnapshot = await getDocs(collection(db, "projects"));
+  const querySnapshot = await getDocs(query(projectsRef, orderBy("createdAt")));
   const temp = [];
   querySnapshot.forEach((doc) => {
     temp.push({ ...doc.data(), id: doc.id });
@@ -41,7 +45,7 @@ export async function getSidebarProjects() {
   Display.renderProjectsSidebar(temp);
 }
 export async function getAllProjects() {
-  const querySnapshot = await getDocs(collection(db, "projects"));
+  const querySnapshot = await getDocs(query(projectsRef, orderBy("createdAt")));
   const temp = [];
   querySnapshot.forEach((doc) => {
     temp.push({ ...doc.data(), id: doc.id });
@@ -51,6 +55,7 @@ export async function getAllProjects() {
 export async function setProject(title) {
   const docRef = await addDoc(collection(db, "projects"), {
     title,
+    createdAt: serverTimestamp()
   });
   getSidebarProjects();
 }
@@ -71,7 +76,7 @@ export async function editProject(id, title) {
 }
 
 export async function getTasks() {
-  const querySnapshot = await getDocs(collection(db, "tasks"));
+  const querySnapshot = await getDocs(query(tasksRef, orderBy("createdAt")));
   const temp = [];
   querySnapshot.forEach((doc) => {
     temp.push({ ...doc.data(), id: doc.id });
@@ -87,6 +92,7 @@ export async function setTask(title, description, dueDate, notes, projectId) {
     dueDate,
     notes,
     complete: null,
+    createdAt: serverTimestamp()
   });
 }
 export async function deleteTask(id) {
@@ -122,7 +128,7 @@ export async function editTaskPriority(id, status) {
 }
 
 export async function showTodayTasks() {
-  const querySnapshot = await getDocs(collection(db, "tasks"));
+  const querySnapshot = await getDocs(query(tasksRef, orderBy("createdAt")));
   const temp = [];
   querySnapshot.forEach((doc) => {
     temp.push({ ...doc.data(), id: doc.id });
@@ -136,7 +142,7 @@ export async function showTodayTasks() {
 }
 
 export async function filterAndRenderCurrentProjectTasks(id) {
-  const q = query(collection(db, "tasks"), where("projectId", "==", id));
+  const q = query(collection(db, "tasks"), where("projectId", "==", id), orderBy("createdAt"));
   const querySnapshot = await getDocs(q);
   const temp = [];
   querySnapshot.forEach((doc) => {
